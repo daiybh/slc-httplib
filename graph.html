@@ -1,0 +1,351 @@
+
+<html lang="en">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/standalone/umd/vis-network.min.js" integrity="sha512-iTgTmIgxyA2YehKNVbzLJx4j9SnuC5ihtRrtxVkXH/9nF3vXBN5YeNQp+6wufBWKD3u+roHVNOvWBMufQnBbug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+
+    <body>
+        <style>
+            @media print {
+                .noPrint {
+                    display: none;
+                }
+            }
+            .button {
+                background-color: #5555cc;
+                border: none;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 18px;
+            }
+        </style>
+
+        <div style="display: grid; grid-template-columns: 75% 25%; grid-template-rows: 30px auto; height: 100vh;">
+            <div id="mylegend" style="background-color: lightgrey; grid-column-end: span 2;"></div>
+            <div id="mynetwork"></div>
+            <div style="background-color: lightgrey;min-height:100%;height:0;overflow-y: auto;">
+                <div>
+                    <input type="checkbox" onchange="switchBuild()" id="show_build_requires" checked />
+                    <label for="show_build_requires">Show build-requires</label>
+                </div>
+                <div>
+                    <input type="checkbox" onchange="switchTest()" id="show_test_requires" checked />
+                    <label for="show_test_requires">Show test-requires</label>
+                </div>
+                <div>
+                    <input type="checkbox" onchange="collapsePackages()" id="collapse_packages"/>
+                    <label for="collapse_packages">Group packages</label>
+                </div>
+                 <div>
+                    <input type="checkbox" onchange="showPackageType()" id="show_package_type"/>
+                    <label for="show_package_type">Show package type</label>
+                </div>
+                 <div>
+                    <input type="search" placeholder="Search packages..." oninput="searchPackages(this)">
+                </div>
+                 <div>
+                    <input type="search" placeholder="Exclude packages..." title="Add a comma to exclude an additional package" oninput="excludePackages(this)">
+                </div>
+                <div>
+                    <input type="checkbox" onchange="showhideclass('controls')" id="show_controls"/>
+                    <label for="show_controls">Show graph controls</label>
+                </div>
+                <div id="controls" class="controls" style="padding:5; display:none"></div>
+                <div id="details"  style="padding:10;" class="noPrint">Package info: Click on one package to show information</div>
+                <div id="error" style="padding:10;" class="noPrint"></div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const graph_data = {"error": null, "nodes": {"0": {"author": "\u003cPut your name here\u003e \u003cAnd your email here\u003e", "binary": null, "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "host", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": {"fPIC": true, "shared": false}, "dependencies": {"1": {"build": false, "direct": true, "force": false, "headers": true, "libs": false, "package_id_mode": "full_mode", "ref": "cpp-httplib/0.16.0", "run": false, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": true}, "2": {"build": false, "direct": true, "force": false, "headers": true, "libs": true, "package_id_mode": "minor_mode", "ref": "openssl/3.2.2", "run": false, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": true}, "3": {"build": false, "direct": false, "force": false, "headers": false, "libs": true, "package_id_mode": "minor_mode", "ref": "zlib/1.3.1", "run": false, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": true}, "7": {"build": false, "direct": true, "force": false, "headers": true, "libs": true, "package_id_mode": "minor_mode", "ref": "slc-loglib/1.24.28.3", "run": false, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": true}}, "deprecated": null, "description": "\u003cDescription of slc-httplib package here\u003e", "generators": [], "generators_folder": null, "homepage": null, "id": "0", "info": {"options": {"shared": "False"}, "requires": ["cpp-httplib/0.16.0#f2ba6b4a94301d66f8e06a3885364e33:da39a3ee5e6b4b0d3255bfef95601890afd80709", "openssl/3.2.Z", "zlib/1.3.Z", "slc-loglib/1.24.Z"], "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "conanfile.py (slc-httplib/1.24.35.1)", "languages": [], "license": "\u003cPut the package license here\u003e", "name": "slc-httplib", "options": {"shared": "False"}, "options_definitions": {"shared": ["True", "False"]}, "options_description": null, "package_folder": null, "package_id": "01adf318b9996c82a3f1f0748707b125bfce309d", "package_type": "static-library", "prev": null, "prev_timestamp": null, "provides": null, "python_requires": null, "recipe": "Consumer", "recipe_folder": "D:\\Codes\\SLC\\slc-httplib", "ref": "slc-httplib/1.24.35.1", "remote": null, "revision_mode": "hash", "rrev": null, "rrev_timestamp": null, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["\u003cPut some tag here\u003e", "\u003chere\u003e", "\u003cand here\u003e"], "upload_policy": null, "url": "\u003cPackage recipe repository url here, for issues about the package\u003e", "user": null, "vendor": false, "version": "1.24.35.1", "win_bash": null, "win_bash_run": null}, "1": {"author": null, "binary": "Cache", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "host", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": {"with_brotli": false, "with_openssl": false, "with_zlib": false}, "dependencies": {}, "deprecated": null, "description": "A C++11 single-file header-only cross platform HTTP/HTTPS library.", "generators": [], "generators_folder": null, "homepage": "https://github.com/yhirose/cpp-httplib", "id": "1", "info": {}, "info_invalid": null, "invalid_build": false, "label": "cpp-httplib/0.16.0", "languages": [], "license": "MIT", "name": "cpp-httplib", "options": {"with_brotli": "False", "with_openssl": "False", "with_zlib": "False"}, "options_definitions": {"with_brotli": ["True", "False"], "with_openssl": ["True", "False"], "with_zlib": ["True", "False"]}, "options_description": null, "package_folder": null, "package_id": "da39a3ee5e6b4b0d3255bfef95601890afd80709", "package_type": "header-library", "prev": "9109cfc4a0edf98c25db016b0fdabb18", "prev_timestamp": 1722991975.305, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\cpp-h5c280cb769220\\e", "ref": "cpp-httplib/0.16.0#f2ba6b4a94301d66f8e06a3885364e33", "remote": null, "revision_mode": "hash", "rrev": "f2ba6b4a94301d66f8e06a3885364e33", "rrev_timestamp": 1722991313.205, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["http", "https", "header-only"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "0.16.0", "win_bash": null, "win_bash_run": null}, "2": {"author": null, "binary": "Cache", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "host", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": {"386": false, "capieng_dialog": false, "enable_capieng": false, "enable_trace": false, "enable_weak_ssl_ciphers": false, "fPIC": true, "no_apps": false, "no_aria": false, "no_asm": false, "no_async": false, "no_autoload_config": false, "no_bf": false, "no_blake2": false, "no_camellia": false, "no_cast": false, "no_chacha": false, "no_cms": false, "no_comp": false, "no_ct": false, "no_deprecated": false, "no_des": false, "no_dgram": false, "no_dh": false, "no_dsa": false, "no_dso": false, "no_ec": false, "no_ecdh": false, "no_ecdsa": false, "no_engine": false, "no_filenames": false, "no_fips": false, "no_gost": false, "no_idea": false, "no_legacy": false, "no_md2": true, "no_md4": false, "no_mdc2": false, "no_module": false, "no_ocsp": false, "no_pinshared": false, "no_rc2": false, "no_rc4": false, "no_rc5": false, "no_rfc3779": false, "no_rmd160": false, "no_seed": false, "no_sm2": false, "no_sm3": false, "no_sm4": false, "no_sock": false, "no_srp": false, "no_srtp": false, "no_sse2": false, "no_ssl": false, "no_ssl3": false, "no_stdio": false, "no_threads": false, "no_tls1": false, "no_ts": false, "no_whirlpool": false, "no_zlib": false, "openssldir": null, "shared": false, "tls_security_level": null}, "dependencies": {"3": {"build": false, "direct": true, "force": false, "headers": true, "libs": true, "package_id_mode": "minor_mode", "ref": "zlib/1.3.1", "run": false, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": true}, "4": {"build": true, "direct": true, "force": false, "headers": false, "libs": false, "package_id_mode": null, "ref": "nasm/2.16.01", "run": true, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": false}, "6": {"build": true, "direct": true, "force": false, "headers": false, "libs": false, "package_id_mode": null, "ref": "strawberryperl/5.32.1.1", "run": true, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": false}}, "deprecated": null, "description": "A toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols", "generators": [], "generators_folder": null, "homepage": "https://github.com/openssl/openssl", "id": "2", "info": {"options": {"386": "False", "capieng_dialog": "False", "enable_capieng": "False", "enable_trace": "False", "enable_weak_ssl_ciphers": "False", "no_apps": "False", "no_aria": "False", "no_asm": "False", "no_async": "False", "no_autoload_config": "False", "no_bf": "False", "no_blake2": "False", "no_camellia": "False", "no_cast": "False", "no_chacha": "False", "no_cms": "False", "no_comp": "False", "no_ct": "False", "no_deprecated": "False", "no_des": "False", "no_dgram": "False", "no_dh": "False", "no_dsa": "False", "no_dso": "False", "no_ec": "False", "no_ecdh": "False", "no_ecdsa": "False", "no_engine": "False", "no_filenames": "False", "no_fips": "False", "no_gost": "False", "no_idea": "False", "no_legacy": "False", "no_md2": "True", "no_md4": "False", "no_mdc2": "False", "no_module": "False", "no_ocsp": "False", "no_pinshared": "False", "no_rc2": "False", "no_rc4": "False", "no_rc5": "False", "no_rfc3779": "False", "no_rmd160": "False", "no_seed": "False", "no_sm2": "False", "no_sm3": "False", "no_sm4": "False", "no_sock": "False", "no_srp": "False", "no_srtp": "False", "no_sse2": "False", "no_ssl": "False", "no_ssl3": "False", "no_stdio": "False", "no_threads": "False", "no_tls1": "False", "no_ts": "False", "no_whirlpool": "False", "no_zlib": "False", "openssldir": null, "shared": "False", "tls_security_level": null}, "requires": ["zlib/1.3.Z"], "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "193", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "openssl/3.2.2", "languages": [], "license": "Apache-2.0", "name": "openssl", "options": {"386": "False", "capieng_dialog": "False", "enable_capieng": "False", "enable_trace": "False", "enable_weak_ssl_ciphers": "False", "no_apps": "False", "no_aria": "False", "no_asm": "False", "no_async": "False", "no_autoload_config": "False", "no_bf": "False", "no_blake2": "False", "no_camellia": "False", "no_cast": "False", "no_chacha": "False", "no_cms": "False", "no_comp": "False", "no_ct": "False", "no_deprecated": "False", "no_des": "False", "no_dgram": "False", "no_dh": "False", "no_dsa": "False", "no_dso": "False", "no_ec": "False", "no_ecdh": "False", "no_ecdsa": "False", "no_engine": "False", "no_filenames": "False", "no_fips": "False", "no_gost": "False", "no_idea": "False", "no_legacy": "False", "no_md2": "True", "no_md4": "False", "no_mdc2": "False", "no_module": "False", "no_ocsp": "False", "no_pinshared": "False", "no_rc2": "False", "no_rc4": "False", "no_rc5": "False", "no_rfc3779": "False", "no_rmd160": "False", "no_seed": "False", "no_sm2": "False", "no_sm3": "False", "no_sm4": "False", "no_sock": "False", "no_srp": "False", "no_srtp": "False", "no_sse2": "False", "no_ssl": "False", "no_ssl3": "False", "no_stdio": "False", "no_threads": "False", "no_tls1": "False", "no_ts": "False", "no_whirlpool": "False", "no_zlib": "False", "openssldir": "None", "shared": "False", "tls_security_level": "None"}, "options_definitions": {"386": ["True", "False", "ANY"], "capieng_dialog": ["True", "False", "ANY"], "enable_capieng": ["True", "False", "ANY"], "enable_trace": ["True", "False", "ANY"], "enable_weak_ssl_ciphers": ["True", "False", "ANY"], "no_apps": ["True", "False", "ANY"], "no_aria": ["True", "False", "ANY"], "no_asm": ["True", "False", "ANY"], "no_async": ["True", "False", "ANY"], "no_autoload_config": ["True", "False", "ANY"], "no_bf": ["True", "False", "ANY"], "no_blake2": ["True", "False", "ANY"], "no_camellia": ["True", "False", "ANY"], "no_cast": ["True", "False", "ANY"], "no_chacha": ["True", "False", "ANY"], "no_cms": ["True", "False", "ANY"], "no_comp": ["True", "False", "ANY"], "no_ct": ["True", "False", "ANY"], "no_deprecated": ["True", "False", "ANY"], "no_des": ["True", "False", "ANY"], "no_dgram": ["True", "False", "ANY"], "no_dh": ["True", "False", "ANY"], "no_dsa": ["True", "False", "ANY"], "no_dso": ["True", "False", "ANY"], "no_ec": ["True", "False", "ANY"], "no_ecdh": ["True", "False", "ANY"], "no_ecdsa": ["True", "False", "ANY"], "no_engine": ["True", "False", "ANY"], "no_filenames": ["True", "False", "ANY"], "no_fips": ["True", "False", "ANY"], "no_gost": ["True", "False", "ANY"], "no_idea": ["True", "False", "ANY"], "no_legacy": ["True", "False", "ANY"], "no_md2": ["True", "False", "ANY"], "no_md4": ["True", "False", "ANY"], "no_mdc2": ["True", "False", "ANY"], "no_module": ["True", "False", "ANY"], "no_ocsp": ["True", "False", "ANY"], "no_pinshared": ["True", "False", "ANY"], "no_rc2": ["True", "False", "ANY"], "no_rc4": ["True", "False", "ANY"], "no_rc5": ["True", "False", "ANY"], "no_rfc3779": ["True", "False", "ANY"], "no_rmd160": ["True", "False", "ANY"], "no_seed": ["True", "False", "ANY"], "no_sm2": ["True", "False", "ANY"], "no_sm3": ["True", "False", "ANY"], "no_sm4": ["True", "False", "ANY"], "no_sock": ["True", "False", "ANY"], "no_srp": ["True", "False", "ANY"], "no_srtp": ["True", "False", "ANY"], "no_sse2": ["True", "False", "ANY"], "no_ssl": ["True", "False", "ANY"], "no_ssl3": ["True", "False", "ANY"], "no_stdio": ["True", "False", "ANY"], "no_threads": ["True", "False", "ANY"], "no_tls1": ["True", "False", "ANY"], "no_ts": ["True", "False", "ANY"], "no_whirlpool": ["True", "False", "ANY"], "no_zlib": ["True", "False", "ANY"], "openssldir": [null, "ANY", "ANY"], "shared": ["True", "False", "ANY"], "tls_security_level": [null, "0", "1", "2", "3", "4", "5", "ANY"]}, "options_description": null, "package_folder": null, "package_id": "2bcf959ecd653496ee2aa793e11b67c013b3b876", "package_type": "static-library", "prev": "1e6139878135667c939c909786e38acf", "prev_timestamp": 1721928446.681, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\opens95f5c5901c7f4\\e", "ref": "openssl/3.2.2#7584be13a2b454b5a33ae7caeb091833", "remote": null, "revision_mode": "hash", "rrev": "7584be13a2b454b5a33ae7caeb091833", "rrev_timestamp": 1721924370.895, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "193", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["ssl", "tls", "encryption", "security"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "3.2.2", "win_bash": null, "win_bash_run": null}, "3": {"author": null, "binary": "Cache", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "host", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": {"fPIC": true, "shared": false}, "dependencies": {}, "deprecated": null, "description": "A Massively Spiffy Yet Delicately Unobtrusive Compression Library (Also Free, Not to Mention Unencumbered by Patents)", "generators": [], "generators_folder": null, "homepage": "https://zlib.net", "id": "3", "info": {"options": {"shared": "False"}, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "193", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "zlib/1.3.1", "languages": [], "license": "Zlib", "name": "zlib", "options": {"shared": "False"}, "options_definitions": {"shared": ["True", "False", "ANY"]}, "options_description": null, "package_folder": null, "package_id": "7bfde258ff4f62f75668d0896dbddedaa7480a0f", "package_type": "static-library", "prev": "20d10b761ec15eed7a1d61c86bc7415a", "prev_timestamp": 1708594714.359, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\zlib41bd3946e7341\\e", "ref": "zlib/1.3.1#f52e03ae3d251dec704634230cd806a2", "remote": null, "revision_mode": "hash", "rrev": "f52e03ae3d251dec704634230cd806a2", "rrev_timestamp": 1708593606.497, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "193", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["zlib", "compression"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "1.3.1", "win_bash": null, "win_bash_run": null}, "4": {"author": null, "binary": "Skip", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "build", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": null, "dependencies": {"5": {"build": true, "direct": true, "force": false, "headers": false, "libs": false, "package_id_mode": null, "ref": "strawberryperl/5.32.1.1", "run": true, "skip": false, "test": false, "transitive_headers": null, "transitive_libs": null, "visible": false}}, "deprecated": null, "description": "The Netwide Assembler, NASM, is an 80x86 and x86-64 assembler", "generators": [], "generators_folder": null, "homepage": "http://www.nasm.us", "id": "4", "info": {"settings": {"arch": "x86_64", "build_type": "Release", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "nasm/2.16.01", "languages": [], "license": "BSD-2-Clause", "name": "nasm", "options": {}, "options_definitions": {}, "options_description": null, "package_folder": null, "package_id": "723257509aee8a72faf021920c2874abc738e029", "package_type": "application", "prev": "a32665446878fcea73ae881cc0cd7d41", "prev_timestamp": 1703989724.026, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\nasmdd53aea891ec3\\e", "ref": "nasm/2.16.01#d0aebbd20ccbb6ad9c9c753ab708098c", "remote": null, "revision_mode": "hash", "rrev": "d0aebbd20ccbb6ad9c9c753ab708098c", "rrev_timestamp": 1703986473.394, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["asm", "installer", "assembler"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "2.16.01", "win_bash": null, "win_bash_run": null}, "5": {"author": null, "binary": "Skip", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "build", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": null, "dependencies": {}, "deprecated": null, "description": "Strawberry Perl for Windows.", "generators": [], "generators_folder": null, "homepage": "http://strawberryperl.com", "id": "5", "info": {"settings": {"arch": "x86_64", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "strawberryperl/5.32.1.1", "languages": [], "license": ["Artistic-1.0", "GPL-1.0"], "name": "strawberryperl", "options": {}, "options_definitions": {}, "options_description": null, "package_folder": null, "package_id": "522dcea5982a3f8a5b624c16477e47195da2f84f", "package_type": "application", "prev": "a365b3810f698e2f0a00fbeece022903", "prev_timestamp": 1716913306.441, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\straw0ce3853788a29\\e", "ref": "strawberryperl/5.32.1.1#707032463aa0620fa17ec0d887f5fe41", "remote": null, "revision_mode": "hash", "rrev": "707032463aa0620fa17ec0d887f5fe41", "rrev_timestamp": 1716912583.131, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["perl", "interpreter", "windows"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "5.32.1.1", "win_bash": null, "win_bash_run": null}, "6": {"author": null, "binary": "Skip", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "build", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": null, "dependencies": {}, "deprecated": null, "description": "Strawberry Perl for Windows.", "generators": [], "generators_folder": null, "homepage": "http://strawberryperl.com", "id": "6", "info": {"settings": {"arch": "x86_64", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "strawberryperl/5.32.1.1", "languages": [], "license": ["Artistic-1.0", "GPL-1.0"], "name": "strawberryperl", "options": {}, "options_definitions": {}, "options_description": null, "package_folder": null, "package_id": "522dcea5982a3f8a5b624c16477e47195da2f84f", "package_type": "application", "prev": "a365b3810f698e2f0a00fbeece022903", "prev_timestamp": 1716913306.441, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\straw0ce3853788a29\\e", "ref": "strawberryperl/5.32.1.1#707032463aa0620fa17ec0d887f5fe41", "remote": null, "revision_mode": "hash", "rrev": "707032463aa0620fa17ec0d887f5fe41", "rrev_timestamp": 1716912583.131, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["perl", "interpreter", "windows"], "upload_policy": null, "url": "https://github.com/conan-io/conan-center-index", "user": null, "vendor": false, "version": "5.32.1.1", "win_bash": null, "win_bash_run": null}, "7": {"author": "\u003cPut your name here\u003e \u003cAnd your email here\u003e", "binary": "Cache", "binary_remote": null, "build_folder": null, "build_id": null, "build_policy": null, "channel": null, "conf_info": {}, "context": "host", "cpp_info": {"root": {"bindirs": ["bin"], "builddirs": null, "cflags": null, "cxxflags": null, "defines": null, "exelinkflags": null, "frameworkdirs": null, "frameworks": null, "includedirs": ["include"], "libdirs": ["lib"], "libs": null, "objects": null, "properties": null, "requires": null, "resdirs": null, "sharedlinkflags": null, "srcdirs": null, "sysroot": null, "system_libs": null}}, "default_options": {"fPIC": true, "shared": false}, "dependencies": {}, "deprecated": null, "description": "\u003cDescription of loglib package here\u003e", "generators": [], "generators_folder": null, "homepage": null, "id": "7", "info": {"options": {"shared": "False"}, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}}, "info_invalid": null, "invalid_build": false, "label": "slc-loglib/1.24.28.3", "languages": [], "license": "\u003cPut the package license here\u003e", "name": "slc-loglib", "options": {"shared": "False"}, "options_definitions": {"shared": ["True", "False"]}, "options_description": null, "package_folder": null, "package_id": "6119fcdeccb25969de15c5fd8a88f617d4396ca6", "package_type": "static-library", "prev": "bdd6ce7a81e168f671c4fa93481fb591", "prev_timestamp": 1720416584.631052, "provides": null, "python_requires": null, "recipe": "Cache", "recipe_folder": "C:\\Users\\daili\\.conan2\\p\\slc-l933ac73b7a8f2\\e", "ref": "slc-loglib/1.24.28.3#0441215af8c19b3aea44eeb0328f3e9f", "remote": null, "revision_mode": "hash", "rrev": "0441215af8c19b3aea44eeb0328f3e9f", "rrev_timestamp": 1720416574.083624, "settings": {"arch": "x86_64", "build_type": "Release", "compiler": "msvc", "compiler.cppstd": "20", "compiler.runtime": "dynamic", "compiler.runtime_type": "Release", "compiler.version": "194", "os": "Windows"}, "source_folder": null, "system_requires": {}, "test": false, "topics": ["\u003cPut some tag here\u003e", "\u003chere\u003e", "\u003cand here\u003e"], "upload_policy": null, "url": "\u003cPackage recipe repository url here, for issues about the package\u003e", "user": null, "vendor": false, "version": "1.24.28.3", "win_bash": null, "win_bash_run": null}}, "overrides": {}, "replaced_requires": {}, "resolved_ranges": {"zlib/[\u003e=1.2.11 \u003c2]": "zlib/1.3.1"}, "root": {"0": "slc-httplib/1.24.35.1"}};
+            let hide_build = false;
+            let hide_test = false;
+            let search_pkgs = null;
+            let excluded_pkgs = null;
+            let collapse_packages = false;
+            let show_package_type = false;
+            let color_map = {Cache: "SkyBlue",
+                             Download: "LightGreen",
+                             Build: "Yellow",
+                             Missing: "Orange",
+                             Update: "SeaGreen",
+                             Skip: "White",
+                             Editable: "LightCyan",
+                             EditableBuild: "Cyan",
+                             Invalid: "Red",
+                             Platform: "Violet"};
+            let global_edges = {};
+            function define_data(){
+                let nodes = [];
+                let edges = [];
+                let collapsed_packages = {};
+                let targets = {};
+                global_edges = {};
+                let edge_counter = 0;
+                let conflict=null;
+                if (graph_data["error"] && graph_data["error"]["type"] == "conflict")
+                    conflict = graph_data["error"];
+                for (const [node_id, node] of Object.entries(graph_data["nodes"])) {
+                    if (node.context == "build" && hide_build) continue;
+                    if (node.test && hide_test) continue;
+                    let shape = node.context == "build" || node.test ? "ellipse" : "box";
+                    let label = null;
+                    if (node["name"])
+                        label =  node["name"] + "/" + node["version"];
+                    else if (node["ref"])
+                        label = node["ref"];
+                    else
+                        label = node.recipe == "Consumer"? "conanfile": "CLI";
+                    if (collapse_packages) {
+                        let existing = collapsed_packages[label];
+                        targets[node_id] = existing;
+                        if (existing) continue;
+                        collapsed_packages[label] = node_id;
+                    }
+                    if (excluded_pkgs) {
+                        let patterns = excluded_pkgs.split(',')
+                            .map(pattern => pattern.trim())
+                            .filter(pattern => pattern.length > 0)
+                            .map(pattern => pattern.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+                        if (patterns.some(pattern => label.match(pattern))) {
+                            continue;
+                        }
+                    }
+                    if (show_package_type) {
+                         label = "<b>" + label + "\n" + "<i>" + node.package_type + "</i>";
+                    }
+                    borderWidth = 1;
+                    borderColor = "SkyBlue";
+                    font = {multi: 'html'};
+                    shapeProperties = {};
+                    let color = color_map[node.binary]
+                    if (conflict && conflict.branch1.dst_id == node_id){
+                        font.color = "white";
+                        color = "Black";
+                        shape = "circle";
+                    }
+                    if (search_pkgs) {
+                        let patterns = search_pkgs.split(',')
+                            .map(pattern => pattern.trim())
+                            .filter(pattern => pattern.length > 0)
+                            .map(pattern => pattern.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+                        if (patterns.some(pattern => label.match(pattern))) {
+                            borderWidth = 3;
+                            borderColor = "Magenta";
+                        }
+                    }
+                    if (node.test) {
+                        font.background = "lightgrey";
+                        shapeProperties = {borderDashes: true};
+                    }
+                    if (node.recipe == "Platform") {
+                        font.background = "Violet";
+                    }
+                    if (node.vendor) {
+                        borderColor = "Red";
+                        shapeProperties = {borderDashes: [3,5]};
+                        borderWidth = 2;
+                    }
+                    nodes.push({
+                        id: node_id,
+                        font: font,
+                        label: label,
+                        shape: shape,
+                        shapeProperties: shapeProperties,
+                        borderWidth: borderWidth,
+                        color: {border: borderColor, background: color,
+                                highlight: {background: color, border: "Blue"}},
+                    });
+                }
+                for (const [node_id, node] of Object.entries(graph_data["nodes"])) {
+                    for (const [dep_id, dep] of Object.entries(node["dependencies"])) {
+                        if (dep.direct){
+                            let target_id = targets[dep_id] || dep_id;
+                            edges.push({id: edge_counter, from: node_id, to: target_id,
+                                        color: {color: "SkyBlue", highlight: "Blue"}});
+                            global_edges[edge_counter++] = dep;
+                        }
+                    }
+                }
+                if (conflict) {
+                    let conflict_id = null;
+                    if (conflict.branch1.dst_id) { // already created conflict node
+                        conflict_id = conflict.branch1.dst_id;
+                    }
+                    else {
+                        conflict_id = "conflict_id";
+                        nodes.push({
+                            id: conflict_id,
+                            font: {color: "white"},
+                            label: conflict.name,
+                            shape: "circle",
+                            color: {background: "black",
+                                    highlight: {background: "black", border: "Blue"}},
+                        });
+                        edges.push({id: edge_counter, from: conflict.branch1.src_id, to: conflict_id,
+                                    color: {color: "Red", highlight: "Red"},
+                                    label: conflict.branch1.require.ref});
+                        global_edges[edge_counter++] = conflict.branch1.require;
+                    }
+                    edges.push({id: edge_counter, from: conflict.branch2.src_id, to: conflict_id,
+                                color: {color: "Red", highlight: "Red"},
+                                label: conflict.branch2.require.ref});
+                    global_edges[edge_counter++] = conflict.branch2.require;
+                }
+                return {nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges)};
+            };
+            function define_legend() {
+                let x = 0;
+                let y = 0;
+                let step = 250;
+                let legend_nodes = [];
+                legend_nodes.push({id: 0, x: x, y: y, shape: "box", font: {size: 35},
+                    label: "require",
+                });
+                legend_nodes.push({id: 1, x: x + step, y: y, font: {size: 35}, shape: "ellipse",
+                    label: "tool-require",
+                });
+                legend_nodes.push({id: 2, x: x + 2* step, y: y, font: {size: 35, background: "lightgrey"},
+                    shape: "ellipse", shapeProperties: {borderDashes: true},
+                    label: "test-require",
+                })
+                let counter = 3;
+                legend_nodes.push({x: x + counter*step, y: y, shape: "ellipse",
+                    label: "platform",
+                    font: {size: 35, background: "Violet"},
+                });
+                counter++;
+                for (const [status, color] of Object.entries(color_map)) {
+                    legend_nodes.push({x: x + counter*step, y: y, shape: "box", font: {size: 35},
+                        label: status,
+                        color: {border: "SkyBlue", background: color}
+                    });
+                    counter++;
+                }
+                legend_nodes.push({x: x + counter*step, y: y, shape: "box",
+                    label: "conflict",
+                    font: {size: 35, color: "white"},
+                    color: {border: "SkyBlue", background: "Black"}
+                });
+                counter++;
+
+                legend_nodes.push({x: x + counter*step, y: y, shape: "box",
+                    label: "vendor", font: {size: 35},
+                    color: {border: "Red"},
+                    shapeProperties: {borderDashes: [3,5]},
+                    borderWidth: 2
+                });
+                return {nodes: new vis.DataSet(legend_nodes)};
+            }
+            let error = document.getElementById("error");
+            if (graph_data["error"]){
+                 let div = document.createElement('div');
+                 div.innerHTML = "<pre>Error in the graph: " + JSON.stringify(graph_data["error"], undefined, 2) + "</pre>";
+                 error.appendChild(div);
+            }
+            let container = document.getElementById('mynetwork');
+            let controls = document.getElementById('controls');
+            let legend_container = document.getElementById('mylegend');
+
+            let options = {
+                autoResize: true,
+                locale: 'en',
+                edges: {
+                    arrows: { to: {enabled: true} },
+                    smooth: { enabled: false}
+                },
+                nodes: {font: {'face': 'monospace', 'align': 'left'}},
+                layout: {
+                    "hierarchical": {
+                        enabled: true,
+                        sortMethod: "directed",
+                        direction: "DU",
+                        nodeSpacing: 170,
+                        blockShifting: true,
+                        edgeMinimization: true,
+                        shakeTowards: "roots",
+                    }
+                },
+                physics: { enabled: false},
+                configure: {
+                    enabled: true,
+                    filter: 'layout physics',
+                    showButton: false,
+                    container: controls
+                }
+            };
+
+            let data = define_data();
+            let network = new vis.Network(container, data, options);
+            let legend_data = define_legend();
+            let options_legend = {interaction: {selectable: false, dragView: false, dragNodes: false,
+                                                zoomView: false}, physics: {enabled: false}};
+            let legend = new vis.Network(legend_container, legend_data, options_legend);
+
+            network.on('click', function (properties) {
+                let ids = properties.nodes;
+                let ids_edges = properties.edges;
+                let control = document.getElementById("details");
+                while (control.firstChild) {
+                    control.removeChild(control.firstChild);
+                }
+                if(ids[0] || ids_edges[0]) {
+                    selected = graph_data["nodes"][ids[0]] || global_edges[ids_edges[0]];
+                    let div = document.createElement('div');
+                    let f = Object.fromEntries(Object.entries(selected).filter(([_, v]) => v != null));
+                    div.innerText = JSON.stringify(f, undefined, 2);
+                    let div2 = document.createElement('div');
+                    div2.innerHTML = "<pre>" + div.innerHTML + "</pre>";
+                    control.appendChild(div2);
+                }
+                else {
+                    control.innerHTML = "<b>Info</b>: Click on a package or edge for more info";
+                }
+            });
+            function draw() {
+                let scale = network.getScale();
+                let viewPos = network.getViewPosition();
+                data = define_data();
+                network.setData(data);
+                network.redraw();
+                network.moveTo({position: viewPos, scale: scale});
+            }
+            function switchBuild() {
+                hide_build = !hide_build;
+                draw();
+            }
+            function switchTest() {
+                hide_test = !hide_test;
+                draw();
+            }
+            function collapsePackages() {
+                collapse_packages = !collapse_packages;
+                draw();
+            }
+            function searchPackages(e) {
+                search_pkgs = e.value;
+                draw();
+            }
+            function excludePackages(e) {
+                excluded_pkgs = e.value;
+                draw();
+            }
+            function showPackageType(e) {
+                show_package_type = !show_package_type;
+                draw();
+            }
+            function showhideclass(id) {
+                let elements = document.getElementsByClassName(id)
+                for (let i = 0; i < elements.length; i++) {
+                    elements[i].style.display = (elements[i].style.display != 'none') ? 'none' : 'block';
+                }
+            }
+            window.addEventListener("load", () => {
+               draw();
+            });
+        </script>
+    </body>
+</html>
