@@ -16,8 +16,12 @@ class slc_httplibRecipe(ConanFile):
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
+    options = {
+        "shared": [True, False], 
+        "fPIC": [True, False],
+        "build_test": [ True,False]
+        }
+    default_options = {"shared": False, "fPIC": True, "build_test": False}
 
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
@@ -45,7 +49,10 @@ class slc_httplibRecipe(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure()
+        build_test = self.options.get_safe("build_test")
+        
+        variables={"build_test":build_test}
+        cmake.configure(variables=variables)
         cmake.build()
 
     def package(self):

@@ -5,7 +5,7 @@
 
 int main()
 {
-  printf("test_package\n");
+  printf("testApp\n");
   slc_httplib::HttpServerWrapper server;
 
   long a = 0;
